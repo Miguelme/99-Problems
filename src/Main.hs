@@ -4,11 +4,23 @@ module Main where
 
 -- | 1 Last element of a list
 myLast :: [a] -> a
+myLast [] = error "Empty List does NOT have a head"
 myLast xs = head $ reverse xs
+
+myLast' [] = error "Empty List does NOT have a head"
+myLast' [x] = x
+myLast' (x:xs) = myLast xs
 
 -- | 2 Last but one element of a list
 myButLast :: [a] -> a
-myButLast xs  = head $ drop 1 $ reverse xs 
+myButLast [] = error "Empty List does NOT have a last but one element"
+myButLast xs  = head $ drop 1 $ reverse xs
+
+myButLast' [] = error "Empty List does NOT have a last but one element"
+myButLast' (x:xs) = myButLastTail xs x
+    where
+        myButLastTail [_] prev = prev
+        myButLastTail (x:xs) prev = myButLastTail xs x
 
 -- | 3 Find the kth element
 elementat :: [a] -> Int -> a
@@ -20,7 +32,7 @@ myLength :: [a] -> Int
 myLength xs = myLengthTail xs 0
     where
         myLengthTail (x:xs) acc = myLengthTail (xs) (acc + 1)
-        myLengthTail [] acc = acc 
+        myLengthTail [] acc = acc
 
 myLength' :: [a] -> Int
 myLength' list = myLength_acc list 0
@@ -45,8 +57,10 @@ main = do
     putStrLn "Welcome to FP Haskell Center!"
     putStrLn "Have a good day!"
    -- putStrLn $ show $ myLast [1..1000000]
+   -- putStrLn $ show $ myLast' [1..10]
    -- putStrLn $ show $ myButLast [1..1000000]
    -- putStrLn $ show $ elementat [1..1000000] 20
    -- putStrLn $ show $ myLength' [1..10000]
    -- putStrLn $ show $ myLength [1..10000]
     putStrLn $ show $ myReverse [1..10]
+    putStrLn $ show $ myButLast' [1..1000]
